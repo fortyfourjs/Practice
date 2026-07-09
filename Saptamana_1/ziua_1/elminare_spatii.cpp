@@ -20,6 +20,8 @@ int main(){
 
     eliminare_spatii(s);
     cout << s << '\n';
+    string c = s.substr(2, 3); //substring al s incepand de la poz 2(3 caractere)
+    cout << c << '\n';
 
 return 0;
 }
