@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 void min_max(vector<int>& v){
@@ -42,6 +43,17 @@ void sterge_element(vector<int>& v, int pozitie){
     }
     v.pop_back();
 }
+bool gaseste_dublura(vector<int>& v){ //leetcode 217
+    sort(v.begin(),v.end());
+    int n = v.size();
+    for(int i=0;i<n-1;i++){
+        if(v[i]==v[i+1]){
+            return true;
+        }
+    return false;
+    }
+
+}
 
 int main(){
     vector lista_random {6,3,8,56,4,7,85,73,26,86,54,38,95,11,18,43,67};
@@ -70,6 +82,7 @@ int main(){
     for(auto i : lista_random){
         cout << i << '\n';
     } 
-    
+    cout << gaseste_dublura(lista_random);
+
     return 0;
 }
