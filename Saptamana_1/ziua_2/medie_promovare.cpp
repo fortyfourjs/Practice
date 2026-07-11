@@ -22,10 +22,10 @@ void introducere_note(vector<float>& v){
     }
 }
 int main(){
-    vector<float> nota;
-    introducere_note(nota);
+    vector<float> note_finale;
+    introducere_note(note_finale);
     
-    calculare_medie(nota);
+    calculare_medie(note_finale);
 
     return 0;
     
