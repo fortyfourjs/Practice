@@ -15,8 +15,8 @@ void populeaza_unorderedmap(string&s, unordered_map<char, int>& um){
     }
 }
 void afiseaza_tabel(const unordered_map<char, int>& um){
-    for(auto pereche : um){
-        cout << pereche.first << "\t" << pereche.second << "\n";
+    for(const auto& [caracter, frecventa] : um){
+        cout << caracter << "\t\t" << frecventa << "\n";
     }
 }
 int main(){
