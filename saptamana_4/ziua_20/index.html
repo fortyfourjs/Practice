@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Deschide Consola</h1>
+
+    <script>
+        async function obtineUtilizator() {
+            const raspuns = await fetch('https://jsonplaceholder.typicode.com/users/1');
+            const date = await raspuns.json();
+            
+            console.log("Nume:", date.name);
+            console.log("Email:", date.email);
+        }
+
+        obtineUtilizator();
+    </script>
+</body>
+</html>
