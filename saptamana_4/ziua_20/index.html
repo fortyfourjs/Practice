@@ -1,21 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="ro">
 <head>
-    <title>Test API</title>
+    <meta charset="UTF-8">
+    <title>app crm</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f4f6f8; }
+        .container { max-width: 800px; margin: auto; }
+        .form-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input { margin: 5px 0; padding: 8px; width: 95%; }
+        button { background: #0066cc; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #004999; }
+        .user-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #0066cc; }
+    </style>
 </head>
 <body>
-    <h1>Deschide Consola</h1>
 
-    <script>
-        async function obtineUtilizator() {
-            const raspuns = await fetch('https://jsonplaceholder.typicode.com/users/1');
-            const date = await raspuns.json();
-            
-            console.log("Nume:", date.name);
-            console.log("Email:", date.email);
+<div class="container">
+    <h2>management api</h2>
+
+    <div class="form-card">
+        <h3>Adauga Client Nou</h3>
+        <input type="text" id="numeInput" placeholder="Nume complet">
+        <input type="email" id="emailInput" placeholder="Adresă email">
+        <button onclick="adaugaClientNou()">Adaugă Client (POST)</button>
+    </div>
+
+    <h3>Clienti Existenti (GET)</h3>
+    <div id="listaClienti">Se încarca datele...</div>
+</div>
+
+<script>
+    const API_URL = 'https://jsonplaceholder.typicode.com/users';
+    //GET
+    async function IncarcaClienti() {
+        try{
+            const raspuns = await fetch(API_URL);
+            const clienti = await raspuns.json();
+
+            const container = document.getElementById('listaClienti');
+            container.innerHTML= '';
+
+            clienti.slice(0, 5).forEach(client => {
+                container.innerHTML += `<div class="user-card">
+                                            <strong>${client.name}</strong><br>
+                                            <small>Email: ${client.email}</small>
+                                        </div>`;
+            });
+        }catch(eroare){
+            console.error("Eroare la incarcare", eroare);
         }
+    }
 
-        obtineUtilizator();
-    </script>
+//POST
+    async function adaugaClientNou(params) {
+        const nume = document.getElementById('numeInput').value;
+        const email = document.getElementById('emailInput').value;
+
+        if(!nume || !email){
+            alert("completeaza ambele campuri!");
+            return;
+        }
+        try{
+            const raspuns = await fetch(API_URL,{
+                method:'POST',
+                headers:{'Content-Type': 'application/json'},
+                body:JSON.stringify({name: nume, email: email})
+            });
+            const dateSalvate = await raspuns.json();
+            alert(`SUCCES(201) Client salvat cu ID ul: ${dateSalvate.id}`);
+
+            document.getElementById('listaClienti').innerHTML = `
+                <div class="user-card" style="border-left-color: #28a745;">
+                    <strong>${dateSalvate.name} (NOU)</strong><br>
+                    <small>Email: ${dateSalvate.email}</small>
+                </div>
+                ` + document.getElementById('listaClienti').innerHTML;
+            }catch(eroare){
+                console.error("EROARE POST", eroare);
+            }
+    }
+    IncarcaClienti();
+
+
+</script>
+
 </body>
 </html>
