@@ -5,6 +5,7 @@
 #include <memory>
 #include <algorithm>
 #include <fstream>
+#include <sstream>
 
 
 void Library::adaugaCarte(const std::string& titlu, const std::string& autor, const std::string& isbn, bool stare){
@@ -54,5 +55,17 @@ void Library::incarcaDinFisier(const std::string& numeFisier){
     std::ifstream fisier(numeFisier);
     if(!fisier.is_open()){
         throw std::runtime_error("Fisierul nu e deschis");
+    }
+    std::string linie;
+    while(std::getline(fisier, linie)){
+        std::stringstream ss(linie);
+        std::string titlu, autor, isbn, stareStr;
+        std::getline(ss, titlu, ',' );
+        std::getline(ss, autor, ',' );
+        std::getline(ss, isbn, ',' );
+        std::getline(ss, stareStr, ',' );
+        bool stare = (stareStr == "1");
+
+        adaugaCarte(titlu, autor, isbn, stare);
     }
 }
